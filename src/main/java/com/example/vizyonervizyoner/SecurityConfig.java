@@ -33,11 +33,11 @@ public class SecurityConfig {
         http
                 .csrf(csrf-> csrf.disable())
                 .authorizeHttpRequests(auth->{
-                    auth.requestMatchers("/auth/**").permitAll();
-                    auth.requestMatchers("/admin/**").hasRole("ADMIN");
-                    auth.requestMatchers("/corpuser/**").hasRole("USER");
-                    auth.requestMatchers("/api/resumes/**").hasRole("USER");
-                    auth.anyRequest().authenticated();
+                    //auth.requestMatchers("/auth/**").permitAll();
+                    //auth.requestMatchers("/admin/**").hasRole("ADMIN");
+                    //auth.requestMatchers("/corpuser/**").hasRole("USER");
+                    //auth.requestMatchers("/api/resumes/**").hasRole("USER");
+                    auth.anyRequest().permitAll();
                 });
         http.sessionManagement(
                 session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
