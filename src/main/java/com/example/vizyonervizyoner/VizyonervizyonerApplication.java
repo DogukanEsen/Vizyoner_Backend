@@ -29,7 +29,7 @@ public class VizyonervizyonerApplication {
 			Set<Role> roles = new HashSet<>();
 			roles.add(adminRole);
 			Set<Role> roles2 = new HashSet<>();
-			roles.add(userRole);
+			roles2.add(userRole);
 
 			Users admin = new Users("admin","admin","admin", encoder.encode("admin"),roles);
 			userRepo.save(admin);
