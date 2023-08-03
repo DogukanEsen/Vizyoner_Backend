@@ -1,5 +1,7 @@
 package com.example.vizyonervizyoner;
 
+import com.example.vizyonervizyoner.Util.JwtAuthEntryPoint;
+import com.example.vizyonervizyoner.Util.JwtAuthFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -12,9 +14,17 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
 public class SecurityConfig {
+    @Autowired JwtAuthFilter jwtAuthFilter;
+    @Autowired
+    private JwtAuthEntryPoint jwtAuthenticationEntryPoint;
+
+    @Autowired
+    private UserDetailsService jwtUserDetailsService;
+
 
     @Bean
     public PasswordEncoder passwordEncoder(){
@@ -35,13 +45,15 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth->{
                     auth.requestMatchers("/auth/**").permitAll();
                     auth.requestMatchers("/admin/**").hasRole("USER");
-                    auth.requestMatchers("/user/**").authenticated();
+                    auth.requestMatchers("/user/**").hasRole("USER");
                     auth.requestMatchers("/api/resumes/**").hasRole("USER");
                     auth.anyRequest().permitAll();
                 });
         http.sessionManagement(
                 session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
         );
+        http.exceptionHandling().authenticationEntryPoint(jwtAuthenticationEntryPoint);
+        http.addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }
 }

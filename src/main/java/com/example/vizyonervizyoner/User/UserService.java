@@ -10,6 +10,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -29,7 +31,28 @@ public class UserService implements UserDetailsService {
     public Optional<Users> getUserById(int userId) {
         return userRepo.findById(userId);
     }
+    public List<Users> userListeleme() {
+        return userRepo.findAll();
+    }
+    public Users savedUser(Users user) {
+        return userRepo.save(user);
+    }
 
+    public Optional<Users> findUserById(int userId) {
+        return userRepo.findById(userId);
+    }
+    public Users getOneUserByUserName(String email) {
+        Optional<Users> optionalUser = userRepo.findByEmail(email);
+        if (optionalUser.isPresent()) {
+            Users existingUser = optionalUser.get();
+            return existingUser;
+    }
+        return null;
+    }
+
+    public void deleteUserById(int userId) {
+        userRepo.deleteById(userId);
+    }
     public Company saveCompany(Company company) {
         return companyRepo.save(company);
     }
@@ -56,7 +79,6 @@ public class UserService implements UserDetailsService {
         return new ResponseEntity<>(user, HttpStatus.CREATED);
     }*/
     //Security..
-    @Autowired private PasswordEncoder encoder;
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         System.out.println("In the user details service");

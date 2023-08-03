@@ -22,9 +22,9 @@ public class VizyonervizyonerApplication {
 	@Bean
 	CommandLineRunner run(RoleRepo roleRepo, UserRepo userRepo, PasswordEncoder encoder){
 		return args -> {
-			if(roleRepo.findByAuthority("ADMIN").isPresent()) return;
-			Role adminRole = roleRepo.save(new Role("ADMIN"));
-			Role userRole =  roleRepo.save(new Role("USER"));
+			if(roleRepo.findByAuthority("ROLE_ADMIN").isPresent()) return;
+			Role adminRole = roleRepo.save(new Role("ROLE_ADMIN"));
+			Role userRole =  roleRepo.save(new Role("ROLE_USER"));
 
 			Set<Role> roles = new HashSet<>();
 			roles.add(adminRole);

@@ -16,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 
 @Service
@@ -27,10 +28,9 @@ public class authService {
     @Autowired private JwtTokenUtil tokenService;
     @Autowired private PasswordEncoder passwordEncoder;
     @Autowired private UserService userService;
-
     public Users registerFirm(String firstname, String lastname, String email, String password) {
         String encodedPassword = passwordEncoder.encode(password);
-        Role userRole = roleRepo.findByAuthority("ADMIN").get();
+        Role userRole = roleRepo.findByAuthority("ROLE_ADMIN").get();
 
         Set<Role> authorities = new HashSet<>();
         authorities.add(userRole);
@@ -39,26 +39,28 @@ public class authService {
     }
     public Users registerUser(String firstname, String lastname, String email, String password){
         String encodedPassword = passwordEncoder.encode(password);
-        Role userRole = roleRepo.findByAuthority("USER").get();
+        Role userRole = roleRepo.findByAuthority("ROLE_USER").get();
 
         Set<Role> authorities = new HashSet<>();
         authorities.add(userRole);
         System.out.println("Email: " + email + "Password: " + password);
         return userRepo.save(new Users(firstname,lastname,email,encodedPassword,authorities));
     }
-    public LoginResponseDTO loginUser(String email, String password){
+    public LoginResponse loginUser(String email, String password){
         try{
             UserDetails userDetails = userService.loadUserByUsername(email);
             if (passwordEncoder.matches(password, userDetails.getPassword())){
 
                 String token = tokenService.generateToken(userDetails);
                 System.out.println(tokenService.getUsernameFromToken(token));
-                return new LoginResponseDTO(userDetails, token);
+                Users user =userService.getOneUserByUserName(email);
+                LoginResponse loginResponse = new LoginResponse("Bearer" + token, user.getId());
+                return loginResponse;
             }
             throw new ValidationException("Email veya şifre hatalı.");
         }catch (AuthenticationException e){
             e.printStackTrace();
-            return new LoginResponseDTO(null,"");
+            return new LoginResponse("null" , 0);
         }
     }
 }
