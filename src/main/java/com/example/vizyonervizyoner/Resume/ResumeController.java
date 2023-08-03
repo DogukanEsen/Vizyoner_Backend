@@ -54,6 +54,7 @@ public class ResumeController {
     }
 
     // DELETE endpoint to delete a resume by its ID
+    //deneme
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteResume(@PathVariable Long id) {
         boolean deleted = resumeService.deleteResume(id);
