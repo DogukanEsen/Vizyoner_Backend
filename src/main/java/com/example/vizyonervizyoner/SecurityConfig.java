@@ -36,6 +36,7 @@ public class SecurityConfig {
                     auth.requestMatchers("/auth/**").permitAll();
                     auth.requestMatchers("/admin/**").hasRole("ADMIN");
                     auth.requestMatchers("/corpuser/**").hasRole("USER");
+                    auth.requestMatchers("/api/resumes/**").hasRole("USER");
                     auth.anyRequest().authenticated();
                 });
         http.sessionManagement(

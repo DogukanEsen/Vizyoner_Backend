@@ -28,11 +28,14 @@ public class authService {
     @Autowired private PasswordEncoder passwordEncoder;
     @Autowired private UserService userService;
 
-    public String loginFirm(){
-        return "LoginCorp";
-    }
-    public String registerFirm() {
-        return "registerCorp";
+    public Users registerFirm(String firstname, String lastname, String email, String password) {
+        String encodedPassword = passwordEncoder.encode(password);
+        Role userRole = roleRepo.findByAuthority("ADMIN").get();
+
+        Set<Role> authorities = new HashSet<>();
+        authorities.add(userRole);
+        System.out.println("Email: " + email + "Password: " + password);
+        return userRepo.save(new Users(firstname,lastname,email,encodedPassword,authorities));
     }
     public Users registerUser(String firstname, String lastname, String email, String password){
         String encodedPassword = passwordEncoder.encode(password);
@@ -49,6 +52,7 @@ public class authService {
             if (passwordEncoder.matches(password, userDetails.getPassword())){
 
                 String token = tokenService.generateToken(userDetails);
+                System.out.println(tokenService.getUsernameFromToken(token));
                 return new LoginResponseDTO(userDetails, token);
             }
             throw new ValidationException("Email veya şifre hatalı.");

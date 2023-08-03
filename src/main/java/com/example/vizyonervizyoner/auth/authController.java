@@ -2,6 +2,7 @@ package com.example.vizyonervizyoner.auth;
 
 import com.example.vizyonervizyoner.User.Users;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -9,17 +10,17 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/auth")
 public class authController {
     @Autowired private authService Authservice;
-    @GetMapping("/login/firm")
-    public String loginFirm(){
-        return Authservice.loginFirm();
+    @PostMapping("/login/firm")
+    public LoginResponseDTO loginFirm(@RequestBody LoginDTO body){
+        return Authservice.loginUser(body.getEmail(), body.getPassword());
     }
     @PostMapping("/login/user")
     public LoginResponseDTO loginUser(@RequestBody LoginDTO body){
         return Authservice.loginUser(body.getEmail(), body.getPassword());
     }
-    @GetMapping("/register/firm")
-    public String registerFirm(){
-        return Authservice.registerFirm();
+    @PostMapping("/register/firm")
+    public Users registerFirm(@RequestBody RegisterDTO body){
+        return Authservice.registerFirm(body.getFirstname(),body.getLastname(),body.getEmail(), body.getPassword());
     }
     @PostMapping("/register/user")
     public Users registerUser(@RequestBody RegisterDTO body){
