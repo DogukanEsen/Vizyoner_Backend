@@ -18,7 +18,7 @@ public class ResumeService {
         return resumeRepository.findAll();
     }
 
-    public Resume getResumeById(Long id) {
+    public Resume getResumeById(int id) {
         return resumeRepository.findById(id).orElse(null);
     }
 
@@ -26,7 +26,7 @@ public class ResumeService {
         return resumeRepository.save(resume);
     }
 
-    public Resume updateResume(Long id, Resume resume) {
+    public Resume updateResume(int id, Resume resume) {
         Resume existingResume = resumeRepository.findById(id).orElse(null);
         if (existingResume != null) {
             existingResume.setCategory(resume.getCategory());
@@ -48,7 +48,7 @@ public class ResumeService {
         }
     }
 
-    public boolean deleteResume(Long id) {
+    public boolean deleteResume(int id) {
         Resume existingResume = resumeRepository.findById(id).orElse(null);
         if (existingResume != null) {
             resumeRepository.delete(existingResume);

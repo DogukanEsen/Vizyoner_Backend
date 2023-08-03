@@ -5,50 +5,59 @@ import jakarta.persistence.Entity;
 
 import jakarta.persistence.*;
 
+import jakarta.persistence.*;
+
 @Entity
 @Table(name = "resume")
 public class Resume {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
-    @Column(nullable = false)
+    private int id;
+    @Column(name = "category", nullable = false)
     private String category;
 
-    @Column(nullable = false, unique = true)
+    @Column(name = "tc", nullable = false, unique = true)
     private Long tc;
 
+    @Column(name = "phone")
     private String phone;
 
-    @Lob
+    @Column(name = "image")
     private byte[] image;
 
+    @Column(name = "country")
     private String country;
 
+    @Column(name = "city")
     private String city;
 
+    @Column(name = "address")
     private String address;
 
+    @Column(name = "gpa")
     private Double gpa;
 
+    @Column(name = "grade")
     private String grade;
 
+    @Column(name = "department")
     private String department;
 
-    @Lob
+    @Column(name = "resumefile")
     private byte[] resumeFile;
 
+    @Column(name = "description")
     private String description;
+
 
     @ManyToOne
     @JoinColumn(name = "userID", referencedColumnName = "id")
     private Users users;
 
-    // Constructors
     public Resume() {
     }
 
-    public Resume(Long id, String category, Long tc, String phone, byte[] image, String country, String city,
+    public Resume(int id, String category, Long tc, String phone, byte[] image, String country, String city,
                   String address, Double gpa, String grade, String department, byte[] resumeFile,
                   String description, Users users) {
         this.id = id;
@@ -91,12 +100,12 @@ public class Resume {
         this.users = users;
     }
 
-    // Getters and Setters
-    public Long getId() {
+
+    public int getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -129,6 +138,7 @@ public class Resume {
     }
 
     public void setImage(byte[] image) {
+
         this.image = image;
     }
 
@@ -195,6 +205,8 @@ public class Resume {
     public void setDescription(String description) {
         this.description = description;
     }
+
+
 
 }
 

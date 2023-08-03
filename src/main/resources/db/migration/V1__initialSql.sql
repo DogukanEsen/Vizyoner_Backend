@@ -65,7 +65,7 @@ CREATE TABLE IF NOT EXISTS resume (
     country TEXT,
     city TEXT,
     address TEXT,
-    gpa double,
+    gpa double precision,
     grade TEXT,
     department TEXT,
     resumeFile TEXT,

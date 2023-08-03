@@ -26,6 +26,9 @@ public class UserService implements UserDetailsService {
     public Users saveUser(Users userEntity) {
         return userRepo.save(userEntity);
     }
+    public Optional<Users> getUserById(int userId) {
+        return userRepo.findById(userId);
+    }
 
     public Company saveCompany(Company company) {
         return companyRepo.save(company);

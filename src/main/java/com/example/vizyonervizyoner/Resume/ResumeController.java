@@ -18,15 +18,15 @@ public class ResumeController {
     }
 
     // GET endpoint to retrieve all resumes
-    @GetMapping
+    @GetMapping("/get")
     public ResponseEntity<List<Resume>> getAllResumes() {
         List<Resume> resumes = resumeService.getAllResumes();
         return new ResponseEntity<>(resumes, HttpStatus.OK);
     }
 
     // GET endpoint to retrieve a single resume by its ID
-    @GetMapping("/{id}")
-    public ResponseEntity<Resume> getResumeById(@PathVariable Long id) {
+    @GetMapping("/get/{id}")
+    public ResponseEntity<Resume> getResumeById(@PathVariable("id") int id) {
         Resume resume = resumeService.getResumeById(id);
         if (resume != null) {
             return new ResponseEntity<>(resume, HttpStatus.OK);
@@ -36,15 +36,15 @@ public class ResumeController {
     }
 
     // POST endpoint to create a new resume
-    @PostMapping
+    @PostMapping("/create")
     public ResponseEntity<Resume> createResume(@RequestBody Resume resume) {
         Resume createdResume = resumeService.createResume(resume);
         return new ResponseEntity<>(createdResume, HttpStatus.CREATED);
     }
 
     // PUT endpoint to update an existing resume
-    @PutMapping("/{id}")
-    public ResponseEntity<Resume> updateResume(@PathVariable Long id, @RequestBody Resume resume) {
+    @PutMapping("/update/{id}")
+    public ResponseEntity<Resume> updateResume(@PathVariable int id, @RequestBody Resume resume) {
         Resume updatedResume = resumeService.updateResume(id, resume);
         if (updatedResume != null) {
             return new ResponseEntity<>(updatedResume, HttpStatus.OK);
@@ -55,8 +55,8 @@ public class ResumeController {
 
     // DELETE endpoint to delete a resume by its ID
     //deneme
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteResume(@PathVariable Long id) {
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<Resume> deleteResume(@PathVariable("id") int id) {
         boolean deleted = resumeService.deleteResume(id);
         if (deleted) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
