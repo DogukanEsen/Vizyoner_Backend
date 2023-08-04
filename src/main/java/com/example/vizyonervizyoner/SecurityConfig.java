@@ -1,5 +1,8 @@
 package com.example.vizyonervizyoner;
 
+import com.example.vizyonervizyoner.Util.JwtAuthEntryPoint;
+import com.example.vizyonervizyoner.Util.JwtAuthFilter;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -15,6 +18,13 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 @Configuration
 public class SecurityConfig {
+    @Autowired JwtAuthFilter jwtAuthFilter;
+    @Autowired
+    private JwtAuthEntryPoint jwtAuthenticationEntryPoint;
+
+    @Autowired
+    private UserDetailsService jwtUserDetailsService;
+
 
     @Bean
     public PasswordEncoder passwordEncoder(){
@@ -42,8 +52,8 @@ public class SecurityConfig {
         http.sessionManagement(
                 session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
         );
-        http
-                .sessionManagement(session ->session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
+        http.exceptionHandling().authenticationEntryPoint(jwtAuthenticationEntryPoint);
+        http.addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }
 }

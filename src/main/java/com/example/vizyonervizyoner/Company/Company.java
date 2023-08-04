@@ -9,7 +9,7 @@ public class Company {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private int id;
     @Column(name = "name", nullable = false)
     private String name;
 
@@ -23,33 +23,33 @@ public class Company {
     private boolean type;
     @OneToOne
     @JoinColumn(name = "userID", referencedColumnName = "id")
-    private Users user;
+    private Users userID;
 
     public Company() {
     }
 
-    public Company(Long id, String name, String content, String category, boolean type, Users user) {
+    public Company(int id, String name, String content, String category, boolean type, Users userID) {
         this.id = id;
         this.name = name;
         this.content = content;
         this.category = category;
         this.type = type;
-        this.user = user;
+        this.userID = userID;
     }
 
-    public Company(String name, String content, String category, boolean type, Users user) {
+    public Company(String name, String content, String category, boolean type, Users userID) {
         this.name = name;
         this.content = content;
         this.category = category;
         this.type = type;
-        this.user = user;
+        this.userID = userID;
     }
 
-    public Long getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -86,12 +86,10 @@ public class Company {
     }
 
     public Users getUser() {
-        return user;
+        return userID;
     }
 
-    public void setUser(Users user) {
-        this.user = user;
+    public void setUser(Users userID) {
+        this.userID = userID;
     }
-
-
 }

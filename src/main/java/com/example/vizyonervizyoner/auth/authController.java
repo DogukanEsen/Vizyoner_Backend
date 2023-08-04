@@ -11,11 +11,11 @@ import org.springframework.web.bind.annotation.*;
 public class authController {
     @Autowired private authService Authservice;
     @PostMapping("/login/firm")
-    public LoginResponseDTO loginFirm(@RequestBody LoginDTO body){
+    public LoginResponse loginFirm(@RequestBody LoginDTO body){
         return Authservice.loginUser(body.getEmail(), body.getPassword());
     }
     @PostMapping("/login/user")
-    public LoginResponseDTO loginUser(@RequestBody LoginDTO body){
+    public LoginResponse loginUser(@RequestBody LoginDTO body){
         return Authservice.loginUser(body.getEmail(), body.getPassword());
     }
     @PostMapping("/register/firm")
