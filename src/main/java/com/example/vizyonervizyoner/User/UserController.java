@@ -13,6 +13,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/user")
+@CrossOrigin(origins = "http://localhost:3000/")
 public class UserController {
     @Autowired UserService userService;
     @Autowired
@@ -24,7 +25,7 @@ public class UserController {
     }
     @PostMapping("/firmaEkle")
     public void firmaEkle(@RequestBody int userId, @RequestBody Company company){
-        //userService.firmaEkle(userId, company);
+        userService.firmaEkle(userId, company);
     }
     @PostMapping("/kullaniciEkle")
     public ResponseEntity<String> kullaniciEkle(@RequestBody Users user) {

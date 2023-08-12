@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/auth")
+@CrossOrigin
 public class authController {
     @Autowired private authService Authservice;
     @PostMapping("/login/firm")

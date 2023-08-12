@@ -54,7 +54,7 @@ public class authService {
                 String token = tokenService.generateToken(userDetails);
                 System.out.println(tokenService.getUsernameFromToken(token));
                 Users user =userService.getOneUserByUserName(email);
-                LoginResponse loginResponse = new LoginResponse("Bearer" + token, user.getId());
+                LoginResponse loginResponse = new LoginResponse("Bearer " + token, user.getId());
                 return loginResponse;
             }
             throw new ValidationException("Email veya şifre hatalı.");

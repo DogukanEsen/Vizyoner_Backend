@@ -2,6 +2,7 @@ package com.example.vizyonervizyoner.User;
 
 import com.example.vizyonervizyoner.Company.Company;
 import com.example.vizyonervizyoner.Company.CompanyRepo;
+import com.example.vizyonervizyoner.Company.CompanyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -28,12 +29,15 @@ public class UserService implements UserDetailsService {
     public Users saveUser(Users userEntity) {
         return userRepo.save(userEntity);
     }
+
     public Optional<Users> getUserById(int userId) {
         return userRepo.findById(userId);
     }
+
     public List<Users> userListeleme() {
         return userRepo.findAll();
     }
+
     public Users savedUser(Users user) {
         return userRepo.save(user);
     }
@@ -41,23 +45,25 @@ public class UserService implements UserDetailsService {
     public Optional<Users> findUserById(int userId) {
         return userRepo.findById(userId);
     }
+
     public Users getOneUserByUserName(String email) {
         Optional<Users> optionalUser = userRepo.findByEmail(email);
         if (optionalUser.isPresent()) {
             Users existingUser = optionalUser.get();
             return existingUser;
-    }
+        }
         return null;
     }
 
     public void deleteUserById(int userId) {
         userRepo.deleteById(userId);
     }
+
     public Company saveCompany(Company company) {
         return companyRepo.save(company);
     }
 
-    /*public ResponseEntity<?> firmaEkle(int userId, Company company) {
+    public ResponseEntity<?> firmaEkle(int userId, Company company) {
         Optional<Users> optionalUser = userRepo.findById(userId);
         Users user;
         if (optionalUser.isPresent()) {
@@ -65,19 +71,17 @@ public class UserService implements UserDetailsService {
         } else {
             return new ResponseEntity<>("Kullanıcı yok!", HttpStatus.BAD_REQUEST);
         }
-
-        if (user.getRole() != 1) { // Kurumsal kullanıcı değilse
-            return new ResponseEntity<>("Kurumsal kullanıcı değilsiniz, firma ekleyemezsiniz!", HttpStatus.BAD_REQUEST);
-        }
+        CompanyService companyService = new CompanyService();
 
         // Firma eklemek için kullanıcının zaten bir firması var mı kontrol edin
-        if (company.findcompbyuserid(user.getId()) != null) {
+        if (companyService.firmaBilgileriAl(user.getId()) != null) {
             return new ResponseEntity<>("Zaten bir firma eklediniz!", HttpStatus.BAD_REQUEST);
         }
 
-        company.setUser(user.getId());
+        company.setUser(user);
         return new ResponseEntity<>(user, HttpStatus.CREATED);
-    }*/
+    }
+
     //Security..
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {

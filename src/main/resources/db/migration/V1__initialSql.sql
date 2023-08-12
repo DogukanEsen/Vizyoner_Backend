@@ -21,6 +21,7 @@ CREATE TABLE IF NOT EXISTS company(
     content TEXT,
     category TEXT not null,
     type BOOLEAN not null,
+    image TEXT,
     userID INT REFERENCES users (id)
 );
 CREATE TABLE IF NOT EXISTS advert (
