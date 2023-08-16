@@ -1,5 +1,7 @@
 package com.example.vizyonervizyoner.Resume;
 
+import com.example.vizyonervizyoner.User.UserRepo;
+import com.example.vizyonervizyoner.User.Users;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
@@ -8,10 +10,12 @@ import java.util.List;
 public class ResumeService {
 
     private final ResumeRepository resumeRepository;
+    private final UserRepo userRepo;
 
     @Autowired
-    public ResumeService(ResumeRepository resumeRepository) {
+    public ResumeService(ResumeRepository resumeRepository, UserRepo userRepo) {
         this.resumeRepository = resumeRepository;
+        this.userRepo = userRepo;
     }
 
     public List<Resume> getAllResumes() {
@@ -30,7 +34,6 @@ public class ResumeService {
         Resume existingResume = resumeRepository.findById(id).orElse(null);
         if (existingResume != null) {
             existingResume.setCategory(resume.getCategory());
-            existingResume.setTc(resume.getTc());
             existingResume.setPhone(resume.getPhone());
             existingResume.setImage(resume.getImage());
             existingResume.setCountry(resume.getCountry());
@@ -39,7 +42,6 @@ public class ResumeService {
             existingResume.setGpa(resume.getGpa());
             existingResume.setGrade(resume.getGrade());
             existingResume.setDepartment(resume.getDepartment());
-            existingResume.setResumeFile(resume.getResumeFile());
             existingResume.setDescription(resume.getDescription());
             existingResume.setUsers(resume.getUsers());
             return resumeRepository.save(existingResume);
@@ -55,6 +57,30 @@ public class ResumeService {
             return true;
         } else {
             return false;
+        }
+    }
+    public Resume getResumeByUserId(int id) {
+        Users user = userRepo.findById(id).orElse(null);
+        return resumeRepository.findResumeByUserId(user).orElse(null);
+    }
+    public Resume updateResumeByUserId(int id, Resume resume){
+        Users user = userRepo.findById(id).orElse(null);
+        Resume existingResume = resumeRepository.findResumeByUserId(user).orElse(null);
+        if (existingResume != null) {
+            existingResume.setCategory(resume.getCategory());
+            existingResume.setPhone(resume.getPhone());
+            existingResume.setImage(resume.getImage());
+            existingResume.setCountry(resume.getCountry());
+            existingResume.setCity(resume.getCity());
+            existingResume.setAddress(resume.getAddress());
+            existingResume.setGpa(resume.getGpa());
+            existingResume.setGrade(resume.getGrade());
+            existingResume.setDepartment(resume.getDepartment());
+            existingResume.setDescription(resume.getDescription());
+            existingResume.setUsers(user);
+            return resumeRepository.save(existingResume);
+        } else {
+            return null;
         }
     }
 }

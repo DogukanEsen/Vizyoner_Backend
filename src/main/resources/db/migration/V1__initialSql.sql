@@ -60,7 +60,6 @@ CREATE TABLE IF NOT EXISTS projects (
 CREATE TABLE IF NOT EXISTS resume (
     id SERIAL PRIMARY KEY,
     category TEXT,
-    tc BIGINT UNIQUE not null,
     phone TEXT,
     image TEXT,
     country TEXT,
@@ -69,7 +68,6 @@ CREATE TABLE IF NOT EXISTS resume (
     gpa double precision,
     grade TEXT,
     department TEXT,
-    resumeFile TEXT,
     description TEXT,
     userID INT REFERENCES users (id)
 );

@@ -64,5 +64,24 @@ public class ResumeController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
+    @GetMapping("/get/user/{id}")
+    public ResponseEntity<Resume> getResumeByUserId(@PathVariable("id") int id) {
+        Resume resume = resumeService.getResumeByUserId(id);
+        if (resume != null) {
+            return new ResponseEntity<>(resume, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+    @PutMapping("/update/user/{id}")
+    public ResponseEntity<Resume> updateResumeByUserId(@PathVariable int id, @RequestBody Resume resume) {
+        Resume updatedResume = resumeService.updateResumeByUserId(id, resume);
+        if (updatedResume != null) {
+            return new ResponseEntity<>(updatedResume, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
 }
 
