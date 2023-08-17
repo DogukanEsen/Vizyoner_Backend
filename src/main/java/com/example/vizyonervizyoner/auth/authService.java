@@ -1,5 +1,6 @@
 package com.example.vizyonervizyoner.auth;
 
+import com.example.vizyonervizyoner.Resume.ResumeService;
 import com.example.vizyonervizyoner.User.*;
 import com.example.vizyonervizyoner.Util.JwtTokenUtil;
 import jakarta.validation.ValidationException;
@@ -28,6 +29,7 @@ public class authService {
     @Autowired private JwtTokenUtil tokenService;
     @Autowired private PasswordEncoder passwordEncoder;
     @Autowired private UserService userService;
+    @Autowired private ResumeService resumeService;
     public Users registerFirm(String firstname, String lastname, String email, String password) {
         String encodedPassword = passwordEncoder.encode(password);
         Role userRole = roleRepo.findByAuthority("ROLE_ADMIN").get();
@@ -44,7 +46,9 @@ public class authService {
         Set<Role> authorities = new HashSet<>();
         authorities.add(userRole);
         System.out.println("Email: " + email + "Password: " + password);
-        return userRepo.save(new Users(firstname,lastname,email,encodedPassword,authorities));
+        Users user = userRepo.save(new Users(firstname,lastname,email,encodedPassword,authorities));
+        resumeService.createResume(user.getId());
+        return user;
     }
     public LoginResponse loginUser(String email, String password){
         try{

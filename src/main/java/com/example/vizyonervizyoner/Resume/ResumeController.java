@@ -35,12 +35,6 @@ public class ResumeController {
         }
     }
 
-    // POST endpoint to create a new resume
-    @PostMapping("/create")
-    public ResponseEntity<Resume> createResume(@RequestBody Resume resume) {
-        Resume createdResume = resumeService.createResume(resume);
-        return new ResponseEntity<>(createdResume, HttpStatus.CREATED);
-    }
 
     // PUT endpoint to update an existing resume
     @PutMapping("/update/{id}")
@@ -82,6 +76,10 @@ public class ResumeController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
-
+    @PostMapping("/create/{id}")
+    public ResponseEntity<Resume> createEmptyResume(@PathVariable int id) {
+            Resume createdResume = resumeService.createResume(id);
+            return new ResponseEntity<>(createdResume, HttpStatus.CREATED);
+    }
 }
 

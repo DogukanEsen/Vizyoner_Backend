@@ -26,7 +26,10 @@ public class ResumeService {
         return resumeRepository.findById(id).orElse(null);
     }
 
-    public Resume createResume(Resume resume) {
+    public Resume createResume(int id) {
+        Resume resume = new Resume();
+        Users user = userRepo.findById(id).orElse(null);
+        resume.setUsers(user);
         return resumeRepository.save(resume);
     }
 
