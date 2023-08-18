@@ -3,6 +3,8 @@ package com.example.vizyonervizyoner.User;
 import com.example.vizyonervizyoner.Company.Company;
 import com.example.vizyonervizyoner.Company.CompanyRepo;
 import com.example.vizyonervizyoner.Company.CompanyService;
+import com.example.vizyonervizyoner.Resume.Resume;
+import com.example.vizyonervizyoner.auth.RegisterDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -33,6 +35,17 @@ public class UserService implements UserDetailsService {
     public Optional<Users> getUserById(int userId) {
         return userRepo.findById(userId);
     }
+    public RegisterDTO getUserByIdDTO(int userId) {
+        Users user = userRepo.findById(userId).orElse(null);
+        RegisterDTO registerDTO = new RegisterDTO();
+        if(user != null){
+            registerDTO.setEmail(user.getEmail());
+            registerDTO.setFirstname(user.getFirstName());
+            registerDTO.setLastname(user.getLastName());
+        }
+        return registerDTO;
+    }
+
 
     public List<Users> userListeleme() {
         return userRepo.findAll();
@@ -81,7 +94,20 @@ public class UserService implements UserDetailsService {
         company.setUser(user);
         return new ResponseEntity<>(user, HttpStatus.CREATED);
     }
+    public ResponseEntity<?> bosFirmaEkle(int userId) {
+        Optional<Users> optionalUser = userRepo.findById(userId);
+        Users user;
+        if (optionalUser.isPresent()) {
+            user = optionalUser.get();
+        } else {
+            return new ResponseEntity<>("Kullanıcı yok!", HttpStatus.BAD_REQUEST);
+        }
+        CompanyService companyService = new CompanyService();
 
+        Company company = new Company();
+        company.setUser(user);
+        return new ResponseEntity<>(company, HttpStatus.CREATED);
+    }
     //Security..
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {

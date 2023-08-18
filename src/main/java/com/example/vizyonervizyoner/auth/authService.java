@@ -1,5 +1,6 @@
 package com.example.vizyonervizyoner.auth;
 
+import com.example.vizyonervizyoner.Company.CompanyService;
 import com.example.vizyonervizyoner.Resume.ResumeService;
 import com.example.vizyonervizyoner.User.*;
 import com.example.vizyonervizyoner.Util.JwtTokenUtil;
@@ -37,7 +38,9 @@ public class authService {
         Set<Role> authorities = new HashSet<>();
         authorities.add(userRole);
         System.out.println("Email: " + email + "Password: " + password);
-        return userRepo.save(new Users(firstname,lastname,email,encodedPassword,authorities));
+        Users user = userRepo.save(new Users(firstname,lastname,email,encodedPassword,authorities));
+        userService.bosFirmaEkle(user.getId());
+        return user;
     }
     public Users registerUser(String firstname, String lastname, String email, String password){
         String encodedPassword = passwordEncoder.encode(password);
