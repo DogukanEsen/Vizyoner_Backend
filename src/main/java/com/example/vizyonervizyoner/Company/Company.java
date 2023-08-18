@@ -25,29 +25,35 @@ public class Company {
     @JoinColumn(name = "userID", referencedColumnName = "id")
     private Users userID;
 
+    @Column(name = "image")
+    private String image;
+
     public Company() {
     }
 
-    public Company(int id, String name, String content, String category, boolean type, Users userID) {
+    public Company(int id, String name, String content, String category, boolean type, Users userID,String image) {
         this.id = id;
         this.name = name;
         this.content = content;
         this.category = category;
         this.type = type;
         this.userID = userID;
+        this.image=image;
     }
 
-    public Company(String name, String content, String category, boolean type, Users userID) {
+    public Company(String name, String content, String category, boolean type, Users userID,String image) {
         this.name = name;
         this.content = content;
         this.category = category;
         this.type = type;
         this.userID = userID;
+        this.image=image;
     }
 
     public int getId() {
         return id;
     }
+
 
     public void setId(int id) {
         this.id = id;
@@ -91,5 +97,13 @@ public class Company {
 
     public void setUser(Users userID) {
         this.userID = userID;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
     }
 }

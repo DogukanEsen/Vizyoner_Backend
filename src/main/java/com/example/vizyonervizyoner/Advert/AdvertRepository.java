@@ -11,7 +11,7 @@ public interface AdvertRepository extends JpaRepository<Advert, Integer> {
 
     // Bir şirkete ait tüm ilanları getir
     @Query("SELECT a FROM Advert a WHERE a.company.id = :companyId")
-    List<Advert> findAdvertsByCompanyId(Integer companyId);
+    List<Advert> findAdvertsByCompanyId(int companyId);
 
 
 

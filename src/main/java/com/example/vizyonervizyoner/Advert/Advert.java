@@ -32,7 +32,7 @@ public class Advert {
 
     @Lob
     @Column(name = "image")
-    private byte[] image;
+    private String image;
 
     @Column(name = "location")
     private String location;
@@ -48,7 +48,7 @@ public class Advert {
     public Advert() {
     }
 
-    public Advert(LocalDate updateDate, String title, String description, LocalDate startDate, LocalDate endDate, byte[] image, String location, String category, Company company) {
+    public Advert(LocalDate updateDate, String title, String description, LocalDate startDate, LocalDate endDate, String image, String location, String category, Company company) {
         this.updateDate = updateDate;
         this.title = title;
         this.description = description;
@@ -108,11 +108,11 @@ public class Advert {
         this.endDate = endDate;
     }
 
-    public byte[] getImage() {
+    public String getImage() {
         return image;
     }
 
-    public void setImage(byte[] image) {
+    public void setImage(String image) {
         this.image = image;
     }
 
@@ -141,7 +141,7 @@ public class Advert {
     }
 
 
-    public Advert(int id, LocalDate updateDate, String title, String description, LocalDate startDate, LocalDate endDate, byte[] image, String location, String category, Company company) {
+    public Advert(int id, LocalDate updateDate, String title, String description, LocalDate startDate, LocalDate endDate,String image, String location, String category, Company company) {
         this.id = id;
         this.updateDate = updateDate;
         this.title = title;

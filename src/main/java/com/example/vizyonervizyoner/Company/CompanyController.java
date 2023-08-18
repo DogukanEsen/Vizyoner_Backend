@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Optional;
 @RestController
 @RequestMapping("/company")
+@CrossOrigin(origins = "http://localhost:3000")
 public class CompanyController {
 
     private CompanyRepo Repo;
