@@ -21,17 +21,36 @@ public class Company {
 
     @Column(name = "type", nullable = false)
     private boolean type;
+    @Column(name = "image")
+    private String image;
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
+    public Users getUserID() {
+        return userID;
+    }
+
+    public void setUserID(Users userID) {
+        this.userID = userID;
+    }
+
     @OneToOne
     @JoinColumn(name = "userID", referencedColumnName = "id")
     private Users userID;
 
-    @Column(name = "image")
-    private String image;
+
 
     public Company() {
     }
 
-    public Company(int id, String name, String content, String category, boolean type, Users userID,String image) {
+
+    public Company(int id, String name, String content, String category, boolean type, Users userID, String image) {
         this.id = id;
         this.name = name;
         this.content = content;
@@ -41,7 +60,9 @@ public class Company {
         this.image=image;
     }
 
+
     public Company(String name, String content, String category, boolean type, Users userID,String image) {
+
         this.name = name;
         this.content = content;
         this.category = category;
@@ -99,11 +120,5 @@ public class Company {
         this.userID = userID;
     }
 
-    public String getImage() {
-        return image;
-    }
 
-    public void setImage(String image) {
-        this.image = image;
-    }
 }

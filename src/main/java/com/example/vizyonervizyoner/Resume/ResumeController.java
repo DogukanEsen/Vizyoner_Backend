@@ -35,12 +35,6 @@ public class ResumeController {
         }
     }
 
-    // POST endpoint to create a new resume
-    @PostMapping("/create")
-    public ResponseEntity<Resume> createResume(@RequestBody Resume resume) {
-        Resume createdResume = resumeService.createResume(resume);
-        return new ResponseEntity<>(createdResume, HttpStatus.CREATED);
-    }
 
     // PUT endpoint to update an existing resume
     @PutMapping("/update/{id}")
@@ -63,6 +57,29 @@ public class ResumeController {
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
+    }
+    @GetMapping("/get/user/{id}")
+    public ResponseEntity<Resume> getResumeByUserId(@PathVariable("id") int id) {
+        Resume resume = resumeService.getResumeByUserId(id);
+        if (resume != null) {
+            return new ResponseEntity<>(resume, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+    @PutMapping("/update/user/{id}")
+    public ResponseEntity<Resume> updateResumeByUserId(@PathVariable int id, @RequestBody Resume resume) {
+        Resume updatedResume = resumeService.updateResumeByUserId(id, resume);
+        if (updatedResume != null) {
+            return new ResponseEntity<>(updatedResume, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+    @PostMapping("/create/{id}")
+    public ResponseEntity<Resume> createEmptyResume(@PathVariable int id) {
+            Resume createdResume = resumeService.createResume(id);
+            return new ResponseEntity<>(createdResume, HttpStatus.CREATED);
     }
 }
 

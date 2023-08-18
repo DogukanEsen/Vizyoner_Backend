@@ -35,6 +35,7 @@ public class VizyonervizyonerApplication {
 			userRepo.save(admin);
 			Users user = new Users("user","user","user", encoder.encode("user"),roles2);
 			userRepo.save(user);
+
 		};
 	}
 }

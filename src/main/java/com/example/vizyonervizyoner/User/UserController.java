@@ -2,6 +2,7 @@ package com.example.vizyonervizyoner.User;
 
 import com.example.vizyonervizyoner.Company.Company;
 import com.example.vizyonervizyoner.Company.CompanyService;
+import com.example.vizyonervizyoner.auth.RegisterDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,6 +14,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/user")
+@CrossOrigin(origins = "http://localhost:3000/")
 public class UserController {
     @Autowired UserService userService;
     @Autowired
@@ -24,7 +26,11 @@ public class UserController {
     }
     @PostMapping("/firmaEkle")
     public void firmaEkle(@RequestBody int userId, @RequestBody Company company){
-        //userService.firmaEkle(userId, company);
+        userService.firmaEkle(userId, company);
+    }
+    @GetMapping("/get/{id}")
+    public RegisterDTO getUserByIdDTO(@PathVariable int id){
+        return userService.getUserByIdDTO(id);
     }
     @PostMapping("/kullaniciEkle")
     public ResponseEntity<String> kullaniciEkle(@RequestBody Users user) {
@@ -36,13 +42,13 @@ public class UserController {
         return userService.userListeleme();
     }
     @PutMapping("/kullaniciGuncelle/{userId}")
-    public ResponseEntity<String> kullaniciGuncelle(@PathVariable int userId, @RequestBody Users updatedUser) {
+    public ResponseEntity<String> kullaniciGuncelle(@PathVariable int userId, @RequestBody RegisterDTO updatedUser) {
         Optional<Users> optionalUser = userService.findUserById(userId);
         if (optionalUser.isPresent()) {
             Users existingUser = optionalUser.get();
-            existingUser.setFirstName(updatedUser.getFirstName());
-            existingUser.setLastName(updatedUser.getLastName());
-            // Diğer güncelleme işlemleri...
+            existingUser.setFirstName(updatedUser.getFirstname());
+            existingUser.setLastName(updatedUser.getLastname());
+            existingUser.setEmail(updatedUser.getEmail());
             userService.saveUser(existingUser);
             return ResponseEntity.ok("Kullanıcı güncellendi.");
         } else {
