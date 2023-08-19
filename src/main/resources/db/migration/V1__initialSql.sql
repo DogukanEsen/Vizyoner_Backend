@@ -17,10 +17,10 @@ CREATE TABLE IF NOT EXISTS user_role_junction (
 );
 CREATE TABLE IF NOT EXISTS company(
     id SERIAL PRIMARY KEY,
-    name TEXT not null,
+    name TEXT,
     content TEXT,
-    category TEXT not null,
-    type BOOLEAN not null,
+    category TEXT,
+    type BOOLEAN,
     image TEXT,
     userID INT REFERENCES users (id)
 );

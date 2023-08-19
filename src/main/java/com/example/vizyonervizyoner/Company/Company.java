@@ -32,37 +32,29 @@ public class Company {
         this.image = image;
     }
 
-    public Users getUserID() {
-        return userID;
-    }
-
-    public void setUserID(Users userID) {
-        this.userID = userID;
-    }
-
     @OneToOne
-    @JoinColumn(name = "userID", referencedColumnName = "id")
+    @JoinColumn(name = "userid", referencedColumnName = "id")
     private Users userID;
 
     public Company() {
     }
 
-    public Company(int id, String name, String content, String category, boolean type, Users userID, String Image) {
+    public Company(int id, String name, String content, String category, boolean type, Users userid, String Image) {
         this.id = id;
         this.name = name;
         this.content = content;
         this.category = category;
         this.type = type;
-        this.userID = userID;
+        this.userID = userid;
         this.image = Image;
     }
 
-    public Company(String name, String content, String category, boolean type, Users userID,String Image) {
+    public Company(String name, String content, String category, boolean type, Users userid,String Image) {
         this.name = name;
         this.content = content;
         this.category = category;
         this.type = type;
-        this.userID = userID;
+        this.userID = userid;
         this.image = Image;
     }
 
@@ -110,7 +102,7 @@ public class Company {
         return userID;
     }
 
-    public void setUser(Users userID) {
-        this.userID = userID;
+    public void setUser(Users userid) {
+        this.userID = userid;
     }
 }

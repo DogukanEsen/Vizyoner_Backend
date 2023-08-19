@@ -1,4 +1,5 @@
 package com.example.vizyonervizyoner.Company;
+import com.example.vizyonervizyoner.Resume.Resume;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -58,5 +59,23 @@ public class CompanyController {
     public ResponseEntity<List<Company>> ilanBasvuruBilgileriAl(@RequestParam int companyId) {
         List<Company> basvurular = companyService.ilanBasvuruBilgileriAl(companyId);
         return new ResponseEntity<>(basvurular, HttpStatus.OK);
+    }
+    @GetMapping("/get/user/{userid}")
+    public ResponseEntity<Company> getCompanyByUserId(@PathVariable("userid") int id) {
+        Company company = companyService.GetCompanyDetailsWUserId(id);
+        if (company != null) {
+            return new ResponseEntity<>(company, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+    @PutMapping("/update/user/{userid}")
+    public ResponseEntity<Company> updateCompanyByUserId(@PathVariable("userid") int id, @RequestBody Company company) {
+        Company updatedCompany = companyService.updateCompanyByUserId(id, company);
+        if (updatedCompany != null) {
+            return new ResponseEntity<>(updatedCompany, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 }

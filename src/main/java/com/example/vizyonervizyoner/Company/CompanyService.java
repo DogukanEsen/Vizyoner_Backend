@@ -1,5 +1,7 @@
 package com.example.vizyonervizyoner.Company;
 
+import com.example.vizyonervizyoner.User.UserRepo;
+import com.example.vizyonervizyoner.User.Users;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.annotation.MergedAnnotations;
 import org.springframework.stereotype.Service;
@@ -9,6 +11,7 @@ import java.util.ArrayList;
 @Service
 public class CompanyService {
     @Autowired CompanyRepo repo;
+    @Autowired UserRepo userRepo;
 
     public Company saveCompany(Company company) {
         return repo.save(company);
@@ -66,5 +69,22 @@ public class CompanyService {
         }
         return new ArrayList<>();
     }
+    public Company GetCompanyDetailsWUserId(int userid){
+        Users user = userRepo.findById(userid).orElse(null);
+        return repo.findCompanyByUserId(user).orElse(null);
+    }
 
+    public Company updateCompanyByUserId(int id, Company company) {
+        Users user = userRepo.findById(id).orElse(null);
+        Company existingCompany = repo.findCompanyByUserId(user).orElse(null);
+        if(existingCompany != null){
+            existingCompany.setName(company.getName());
+            existingCompany.setContent(company.getContent());
+            existingCompany.setCategory(company.getCategory());
+            existingCompany.setType(company.isType());
+            existingCompany.setImage(company.getImage());
+            existingCompany.setUser(user);
+            return repo.save(existingCompany);
+        }else return null;
+    }
 }
