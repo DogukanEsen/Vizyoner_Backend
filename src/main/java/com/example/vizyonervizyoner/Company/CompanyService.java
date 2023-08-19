@@ -1,5 +1,7 @@
 package com.example.vizyonervizyoner.Company;
 
+import com.example.vizyonervizyoner.Advert.Advert;
+import com.example.vizyonervizyoner.Advert.AdvertRepository;
 import com.example.vizyonervizyoner.User.UserRepo;
 import com.example.vizyonervizyoner.User.Users;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +14,8 @@ import java.util.ArrayList;
 public class CompanyService {
     @Autowired CompanyRepo repo;
     @Autowired UserRepo userRepo;
+    @Autowired
+    AdvertRepository advertRepository;
 
     public Company saveCompany(Company company) {
         return repo.save(company);
@@ -40,8 +44,11 @@ public class CompanyService {
         return null;
     }
 
-    public Company ilanAc(Company company) {
-        return repo.save(company);
+    public Advert ilanAc(int userID, Advert advert) {
+        Company company = GetCompanyDetailsWUserId(userID);
+        advert.setCompany(company);
+        advertRepository.save(advert);
+        return advert;
     }
 
     public boolean ilanSonucla(int companyId, boolean sonuc) {
