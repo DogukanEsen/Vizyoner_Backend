@@ -18,7 +18,7 @@ public class Role implements GrantedAuthority {
 
     public Role(Integer roleId, String authority) {
         this.roleId = roleId;
-        authority = authority;
+        this.authority = authority;
     }
 
     public Role(String authority){
@@ -26,7 +26,7 @@ public class Role implements GrantedAuthority {
     }
 
     public Integer getRoleId() {
-        return roleId;
+        return this.roleId;
     }
 
     public void setRoleId(Integer roleId) {
@@ -34,7 +34,7 @@ public class Role implements GrantedAuthority {
     }
 
     public void setAuthority(String authority) {
-        authority = authority;
+        this.authority = authority;
     }
 
     @Override

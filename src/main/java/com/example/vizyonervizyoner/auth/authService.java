@@ -12,6 +12,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -31,6 +32,9 @@ public class authService {
     @Autowired private PasswordEncoder passwordEncoder;
     @Autowired private UserService userService;
     @Autowired private ResumeService resumeService;
+    @Autowired private JwtTokenUtil jwtTokenUtil;
+    @Autowired
+    private UserDetailsService jwtUserDetailsService;
     public Users registerFirm(String firstname, String lastname, String email, String password) {
         String encodedPassword = passwordEncoder.encode(password);
         Role userRole = roleRepo.findByAuthority("ROLE_ADMIN").get();
@@ -68,6 +72,42 @@ public class authService {
         }catch (AuthenticationException e){
             e.printStackTrace();
             return new LoginResponse("null" , 0);
+        }
+    }
+    public boolean isUser(String jwt){
+        if(!isAuth(jwt))
+            return false;
+        String email = jwtTokenUtil.getUsernameFromToken(jwt);
+        Users user = userRepo.findByEmail(email).orElse(null);
+        Set<Role> roles = (Set<Role>) user.getAuthorities();
+
+        for(Role role : roles){
+            if(role.getAuthority().equals("ROLE_USER"))
+                return true;
+        }
+        return false;
+    }
+    public boolean isAdmin(String jwt){
+        if(!isAuth(jwt))
+            return false;
+        String email = jwtTokenUtil.getUsernameFromToken(jwt);
+        Users user = userRepo.findByEmail(email).orElse(null);
+
+        Set<Role> roles = (Set<Role>) user.getAuthorities();
+
+        for(Role role : roles){
+            if(role.getAuthority().equals("ROLE_ADMIN"))
+                return true;
+        }
+        return false;
+    }
+    public boolean isAuth(String jwt){
+        try {
+            String email = jwtTokenUtil.getUsernameFromToken(jwt);
+            UserDetails userDetails = this.jwtUserDetailsService.loadUserByUsername(email);
+            return jwtTokenUtil.validateToken(jwt,userDetails);
+        }catch (Exception e){
+            return false;
         }
     }
 }
