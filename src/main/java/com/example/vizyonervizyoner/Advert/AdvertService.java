@@ -1,13 +1,10 @@
 package com.example.vizyonervizyoner.Advert;
 
-import com.example.vizyonervizyoner.Company.Company;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Arrays;
 import java.util.Base64;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class AdvertService {
@@ -27,20 +24,9 @@ public class AdvertService {
         return advertRepository.findAll();
     }
 
-    public Advert getAdvertById(int id) {
-
-        Optional<Advert> advertOptional = advertRepository.findById(id);
-        Advert existingAdvert = new Advert();
-        if (advertOptional.isPresent()) {
-            existingAdvert = advertOptional.get();
-            String imageData = existingAdvert.getImage(); // Assuming this returns a String
-            byte[] imageBytes = Base64.getDecoder().decode(imageData);
-            existingAdvert.setImage(Arrays.toString(imageBytes));
-        }
-        return existingAdvert;
-
+    public Advert getAdvertById(Integer id) {
+        return advertRepository.findById(id).orElse(null);
     }
-
 
     public Advert updateAdvert(Integer id, Advert updatedAdvert) {
         Advert existingAdvert = advertRepository.findById(id).orElse(null);
@@ -55,13 +41,12 @@ public class AdvertService {
             existingAdvert.setCategory(updatedAdvert.getCategory());
             existingAdvert.setCompany(updatedAdvert.getCompany());
 
-            // Resim alanını güncellemeden önce base64'e dönüştürme
+           /* // Resim alanını güncellemeden önce base64'e dönüştürme
             if (updatedAdvert.getImage() != null) {
-                String imageData = updatedAdvert.getImage(); // Assuming this returns a String
-                byte[] imageBytes = Base64.getDecoder().decode(imageData);
-                updatedAdvert.setImage(Arrays.toString(imageBytes));
-            }
-
+                byte[] imageData = updatedAdvert.getImage();
+                String base64Image = Base64.getEncoder().encodeToString(imageData);
+                existingAdvert.setImage(Base64.getDecoder().decode(base64Image));
+            }*/
 
 
             return advertRepository.save(existingAdvert);

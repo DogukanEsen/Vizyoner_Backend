@@ -1,5 +1,6 @@
 package com.example.vizyonervizyoner.Advert;
 
+import com.example.vizyonervizyoner.Company.Company;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -28,10 +29,11 @@ public class AdvertController {
 
     // Get all adverts
     @GetMapping("/getAllAdverts")
-    public ResponseEntity<List<Advert>> getAllAdverts() {
+    public List<Advert> getAllAdverts() {
         List<Advert> adverts = advertService.getAllAdverts();
-        return new ResponseEntity<>(adverts, HttpStatus.OK);
+        return adverts;
     }
+
 
     // Get a single advert by ID
     @GetMapping("/getAdvertByID/{id}")
