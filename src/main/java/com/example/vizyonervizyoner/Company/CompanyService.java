@@ -7,9 +7,9 @@ import com.example.vizyonervizyoner.User.Users;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.annotation.MergedAnnotations;
 import org.springframework.stereotype.Service;
-import java.util.List;
-import java.util.Optional;
-import java.util.ArrayList;
+
+import java.util.*;
+
 @Service
 public class CompanyService {
     @Autowired CompanyRepo repo;
@@ -26,8 +26,17 @@ public class CompanyService {
     }
 
     public Optional<Company> firmaBilgileriAl(int id) {
-        return repo.findById(id);
+
+        Optional<Company> companyOptional = repo.findById(id);
+        if (companyOptional.isPresent()) {
+            Company existingCompany = companyOptional.get();
+            String imageData = existingCompany.getImage(); // Assuming this returns a String
+            byte[] imageBytes = Base64.getDecoder().decode(imageData);
+            existingCompany.setImage(Arrays.toString(imageBytes));
+        }
+        return companyOptional;
     }
+
 
     public Company firmaBilgileriGuncelle(int id, Company updatedCompany) {
         Optional<Company> company = repo.findById(id);

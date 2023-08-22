@@ -49,14 +49,10 @@ public class SecurityConfig {
                 .csrf(csrf-> csrf.disable())
                 .cors().and()
                 .authorizeHttpRequests(auth->{
-                    auth.requestMatchers("/auth/**").permitAll();
-                    auth.requestMatchers("/api/adverts/**").permitAll();
-                    auth.requestMatchers("/company/**").hasRole("ADMIN");
-                    auth.requestMatchers("/user/firmaekle").hasRole("ADMIN");
-                    auth.requestMatchers("/api/resumes/**").hasAnyRole("USER","ADMIN");
-                    auth.requestMatchers("/application/**").hasRole("USER");
-                    auth.requestMatchers("/user/**").hasRole("USER");
-                    auth.requestMatchers("/api/resumes/**").hasRole("USER");
+                    //auth.requestMatchers("/auth/**").permitAll();
+                    //auth.requestMatchers("/admin/**").hasRole("ADMIN");
+                    //auth.requestMatchers("/corpuser/**").hasRole("USER");
+                    //auth.requestMatchers("/api/resumes/**").hasRole("USER");
                     auth.anyRequest().permitAll();
                 });
         http.sessionManagement(

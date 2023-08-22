@@ -41,12 +41,12 @@ public class AdvertService {
             existingAdvert.setCategory(updatedAdvert.getCategory());
             existingAdvert.setCompany(updatedAdvert.getCompany());
 
-            // Resim alanını güncellemeden önce base64'e dönüştürme
+           /* // Resim alanını güncellemeden önce base64'e dönüştürme
             if (updatedAdvert.getImage() != null) {
                 byte[] imageData = updatedAdvert.getImage();
                 String base64Image = Base64.getEncoder().encodeToString(imageData);
                 existingAdvert.setImage(Base64.getDecoder().decode(base64Image));
-            }
+            }*/
 
 
             return advertRepository.save(existingAdvert);
