@@ -95,17 +95,10 @@ public class UserService implements UserDetailsService {
         return new ResponseEntity<>(user, HttpStatus.CREATED);
     }
     public ResponseEntity<?> bosFirmaEkle(int userId) {
-        Optional<Users> optionalUser = userRepo.findById(userId);
-        Users user;
-        if (optionalUser.isPresent()) {
-            user = optionalUser.get();
-        } else {
-            return new ResponseEntity<>("Kullanıcı yok!", HttpStatus.BAD_REQUEST);
-        }
-        CompanyService companyService = new CompanyService();
-
+        Users user = userRepo.findById(userId).orElse(null);
         Company company = new Company();
         company.setUser(user);
+        companyRepo.save(company);
         return new ResponseEntity<>(company, HttpStatus.CREATED);
     }
     //Security..

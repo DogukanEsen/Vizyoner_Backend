@@ -32,16 +32,8 @@ public class Company {
         this.image = image;
     }
 
-    public Users getUserID() {
-        return userID;
-    }
-
-    public void setUserID(Users userID) {
-        this.userID = userID;
-    }
-
     @OneToOne
-    @JoinColumn(name = "userID", referencedColumnName = "id")
+    @JoinColumn(name = "userid", referencedColumnName = "id")
     private Users userID;
 
 
@@ -116,8 +108,8 @@ public class Company {
         return userID;
     }
 
-    public void setUser(Users userID) {
-        this.userID = userID;
+    public void setUser(Users userid) {
+        this.userID = userid;
     }
 
 

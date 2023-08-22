@@ -1,4 +1,6 @@
 package com.example.vizyonervizyoner.Company;
+import com.example.vizyonervizyoner.Advert.Advert;
+import com.example.vizyonervizyoner.Resume.Resume;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -43,13 +45,12 @@ public class CompanyController {
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
-    @PostMapping("/ilanAc")
-    public ResponseEntity<Company> ilanAc(@RequestBody Company company) {
-        Company savedCompany = companyService.ilanAc(company);
-        return new ResponseEntity<>(savedCompany, HttpStatus.CREATED);
+    @PostMapping("/ilanac/{userid}")
+    public ResponseEntity<Advert> ilanAc(@PathVariable("userid") int id, @RequestBody Advert advert) {
+        return new ResponseEntity<>(companyService.ilanAc(id, advert), HttpStatus.CREATED);
     }
 
-    @PostMapping("/ilanSonucla")
+    @PostMapping("/ilansonucla")
     public ResponseEntity<?> ilanSonucla(@RequestParam int companyId, @RequestParam boolean sonuc) {
         companyService.ilanSonucla(companyId, sonuc);
         return new ResponseEntity<>(HttpStatus.OK);
@@ -59,5 +60,23 @@ public class CompanyController {
     public ResponseEntity<List<Company>> ilanBasvuruBilgileriAl(@RequestParam int companyId) {
         List<Company> basvurular = companyService.ilanBasvuruBilgileriAl(companyId);
         return new ResponseEntity<>(basvurular, HttpStatus.OK);
+    }
+    @GetMapping("/get/user/{userid}")
+    public ResponseEntity<Company> getCompanyByUserId(@PathVariable("userid") int id) {
+        Company company = companyService.GetCompanyDetailsWUserId(id);
+        if (company != null) {
+            return new ResponseEntity<>(company, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+    @PutMapping("/update/user/{userid}")
+    public ResponseEntity<Company> updateCompanyByUserId(@PathVariable("userid") int id, @RequestBody Company company) {
+        Company updatedCompany = companyService.updateCompanyByUserId(id, company);
+        if (updatedCompany != null) {
+            return new ResponseEntity<>(updatedCompany, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 }
