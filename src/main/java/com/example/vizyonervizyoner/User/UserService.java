@@ -102,6 +102,7 @@ public class UserService implements UserDetailsService {
         Company company = new Company();
         company.setUser(user);
         companyRepo.save(company);
+
         return new ResponseEntity<>(company, HttpStatus.CREATED);
     }
 

@@ -34,6 +34,7 @@ CREATE TABLE IF NOT EXISTS advert (
     image TEXT,
     location TEXT,
     category TEXT,
+    advertcategory TEXT,
     companyID INT REFERENCES company (id)
 );
 
@@ -62,7 +63,6 @@ CREATE TABLE IF NOT EXISTS resume (
     category TEXT,
     phone TEXT,
     image TEXT,
-    tc BIGINT UNIQUE NOT NULL,
     country TEXT,
     city TEXT,
     address TEXT,

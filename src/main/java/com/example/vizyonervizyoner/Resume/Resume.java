@@ -43,7 +43,6 @@ public class Resume {
     @Column(name = "description")
     private String description;
 
-
     @ManyToOne
     @JoinColumn(name = "userid", referencedColumnName = "id")
     private Users userid;
@@ -53,7 +52,7 @@ public class Resume {
 
     public Resume(int id, String category, String phone, byte[] image, String country, String city,
                   String address, Double gpa, String grade, String department,
-                  String description, Users users) {
+                  String description,Users users) {
         this.id = id;
         this.category = category;
         this.phone = phone;
@@ -76,7 +75,7 @@ public class Resume {
         this.userid = users;
     }
 
-    public Resume(String category, String phone, byte[] image, String country, String city, String address, Double gpa, String grade, String department, String description, Users users) {
+    public Resume(String category, String phone, byte[] image, String country, String city, String address, Double gpa, String grade, String department,String description, Users users) {
         this.category = category;
         this.phone = phone;
         this.image = image;

@@ -47,6 +47,7 @@ public class CompanyController {
 
     @PostMapping("/ilanac/{userid}")
     public ResponseEntity<Advert> ilanAc(@PathVariable("userid") int id, @RequestBody Advert advert) {
+        System.out.println(advert.getCompany());
         return new ResponseEntity<>(companyService.ilanAc(id, advert), HttpStatus.CREATED);
     }
 

@@ -39,16 +39,29 @@ public class Advert {
 
     @Column(name = "category")
     private String category;
+    @Column(name = "advertcategory")
+    private String advertCategory;
 
     @ManyToOne
     @JoinColumn(name = "companyid")
     private Company company;
 
-
     public Advert() {
     }
-
-    public Advert(LocalDate updateDate, String title, String description, LocalDate startDate, LocalDate endDate, String image, String location, String category, Company company) {
+    public Advert(int id, LocalDate updateDate, String title, String description, LocalDate startDate, LocalDate endDate,String image, String location, String category, String advertCategory,Company company) {
+        this.id = id;
+        this.updateDate = updateDate;
+        this.title = title;
+        this.description = description;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.image = image;
+        this.location = location;
+        this.category = category;
+        this.advertCategory = advertCategory;
+        this.company = company;
+    }
+    public Advert(LocalDate updateDate, String title, String description, LocalDate startDate, LocalDate endDate, String image, String location, String category,String advertCategory, Company company) {
         this.updateDate = updateDate;
         this.title = title;
         this.description = description;
@@ -58,14 +71,23 @@ public class Advert {
         this.location = location;
         this.category = category;
         this.company = company;
+        this.advertCategory = advertCategory;
     }
 
     public int getId() {
         return id;
     }
 
+
     public void setId(int id) {
         this.id = id;
+    }
+    public String getAdvertCategory() {
+        return advertCategory;
+    }
+
+    public void setAdvertCategory(String advertCategory) {
+        this.advertCategory = advertCategory;
     }
 
     public LocalDate getUpdateDate() {
@@ -137,20 +159,6 @@ public class Advert {
     }
 
     public void setCompany(Company company) {
-        this.company = company;
-    }
-
-
-    public Advert(int id, LocalDate updateDate, String title, String description, LocalDate startDate, LocalDate endDate,String image, String location, String category, Company company) {
-        this.id = id;
-        this.updateDate = updateDate;
-        this.title = title;
-        this.description = description;
-        this.startDate = startDate;
-        this.endDate = endDate;
-        this.image = image;
-        this.location = location;
-        this.category = category;
         this.company = company;
     }
 
