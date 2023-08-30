@@ -32,6 +32,10 @@ public class UserController {
     public RegisterDTO getUserByIdDTO(@PathVariable int id){
         return userService.getUserByIdDTO(id);
     }
+    @GetMapping("/getbyjwt/{jwt}")
+    public RegisterDTO getUserByIdDTOjwt(@PathVariable String jwt){
+        return userService.getUserByIdDTOjwt(jwt);
+    }
     @PostMapping("/kullaniciEkle")
     public ResponseEntity<String> kullaniciEkle(@RequestBody Users user) {
         Users savedUser = userService.saveUser(user);
@@ -56,6 +60,10 @@ public class UserController {
         }
     }
 
+    @PutMapping("/kullaniciGuncellejwt/{jwt}")
+    public Users kullaniciGuncellejwt(@PathVariable String jwt, @RequestBody RegisterDTO updatedUser) {
+        return userService.updateUserByjwt(jwt,updatedUser);
+    }
     @DeleteMapping("/kullaniciSil/{userId}")
     public ResponseEntity<String> kullaniciSil(@PathVariable int userId) {
         Optional<Users> optionalUser = userService.findUserById(userId);

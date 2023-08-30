@@ -33,18 +33,14 @@ public class authController {
     }
     @GetMapping("/isuser/{jwt}")
     public boolean isuser(@PathVariable String jwt){
-        jwt = jwt.substring(7);
-        System.out.println(jwt);
         return Authservice.isUser(jwt);
     }
     @GetMapping("/isadmin/{jwt}")
     public boolean isadmin(@PathVariable String jwt){
-        jwt = jwt.substring(7);
         return Authservice.isAdmin(jwt);
     }
     @GetMapping("isauth/{jwt}")
     public boolean isauth(@PathVariable String jwt){
-        jwt = jwt.substring(7);
         return Authservice.isAuth(jwt);
     }
 }

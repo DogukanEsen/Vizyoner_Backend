@@ -2,6 +2,7 @@ package com.example.vizyonervizyoner.Application;
 
 import com.example.vizyonervizyoner.User.UserRepo;
 import com.example.vizyonervizyoner.User.Users;
+import com.example.vizyonervizyoner.Util.JwtTokenUtil;
 import org.apache.catalina.User;
 import org.flywaydb.core.internal.parser.PlaceholderReplacingReader;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +18,7 @@ import java.util.Optional;
 public class ApplicationService {
     private final ApplicationRepository Repo;
     private final UserRepo userRepo;
+    @Autowired private JwtTokenUtil jwtTokenUtil;
 
     @Autowired
     public ApplicationService(ApplicationRepository Repo, UserRepo userRepo) {
@@ -54,6 +56,18 @@ public class ApplicationService {
         application.setDate(new Date());
         application.setUser(user.get());
 
+        // Başvuruyu kaydediyoruz ve oluşturulan başvuruyu dönüyoruz
+        return Repo.save(application);
+    }
+    public List<Application> getApplicationsByUserIdWjwt(String jwt) {
+        Users user = jwtTokenUtil.getUsersWjwt(jwt);
+        return getApplicationsByUserId(user.getId());
+    }
+    public Application createApplicationJwt(String jwt,Application application){
+        Users user = jwtTokenUtil.getUsersWjwt(jwt);
+        // Başvuruya tarih atıyoruz, kullanıcı bilgisini ekliyoruz
+        application.setDate(new Date());
+        application.setUser(user);
         // Başvuruyu kaydediyoruz ve oluşturulan başvuruyu dönüyoruz
         return Repo.save(application);
     }

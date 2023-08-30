@@ -8,6 +8,7 @@ import org.apache.catalina.User;
 import org.flywaydb.core.internal.parser.PlaceholderReplacingReader;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
@@ -40,7 +41,11 @@ public class ApplicationController {
         List<Application> applications = applicationService.getApplicationsByUserId(userId);
         return new ResponseEntity<>(applications, HttpStatus.OK);
     }
-
+    @GetMapping("/jwtusers/{jwt}/applications")
+    public ResponseEntity<List<Application>> getUserApplicationsJwt(@PathVariable String jwt){
+        List<Application> applications = applicationService.getApplicationsByUserIdWjwt(jwt);
+        return new ResponseEntity<>(applications, HttpStatus.OK);
+    }
     // İlan ID'sine göre başvuruları getiren endpoint
     @GetMapping("/advert/{advertId}")
     public ResponseEntity<List<Application>> getApplicationsByAdvertId(@PathVariable Integer advertId) {
@@ -89,5 +94,26 @@ public class ApplicationController {
         Application newApplication = applicationService.createApplication(userId,application);
         return new ResponseEntity<>(newApplication, HttpStatus.CREATED);
     }
+    @PostMapping("/usersjwt/{jwt}/adverts/{advertId}/applications")
+    public ResponseEntity<Application> createApplicationJwt(
+            @PathVariable String jwt,
+            @PathVariable int advertId,
+            @RequestBody Application application
+    ) {
 
+        // İlan var mı kontrol et
+        Optional<Advert> optionalAdvert = Optional.ofNullable(advertService.getAdvertById(advertId));
+        if (!optionalAdvert.isPresent()) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        // Başvuruyu oluştur
+        Advert advert = optionalAdvert.get();
+
+        application.setAdvert(advert);
+        application.setDate(new Date());
+
+        Application newApplication = applicationService.createApplicationJwt(jwt,application);
+        return new ResponseEntity<>(newApplication, HttpStatus.CREATED);
+    }
 }

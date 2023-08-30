@@ -1,8 +1,11 @@
 package com.example.vizyonervizyoner.Util;
 
+import com.example.vizyonervizyoner.User.UserRepo;
+import com.example.vizyonervizyoner.User.Users;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -19,6 +22,8 @@ import java.util.stream.Collectors;
 public class JwtTokenUtil implements Serializable {
 
     private static final long serialVersionUID = -2550185165626007488L;
+    @Autowired
+    private UserRepo userRepo;
 
     public static final long JWT_TOKEN_VALIDITY = 5 * 60 * 60;
 
@@ -73,5 +78,11 @@ public class JwtTokenUtil implements Serializable {
     public Boolean validateToken(String token, UserDetails userDetails) {
         final String username = getUsernameFromToken(token);
         return (username.equals(userDetails.getUsername()) && !isTokenExpired(token));
+    }
+    public Users getUsersWjwt(String jwt){
+        jwt = jwt.substring(7);
+        String email = getUsernameFromToken(jwt);
+        Users user = userRepo.findByEmail(email).orElse(null);
+        return user;
     }
 }

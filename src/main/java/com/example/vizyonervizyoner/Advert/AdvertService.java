@@ -1,7 +1,11 @@
 package com.example.vizyonervizyoner.Advert;
 
+import com.example.vizyonervizyoner.User.UserRepo;
+import com.example.vizyonervizyoner.User.Users;
+import com.example.vizyonervizyoner.Util.JwtTokenUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.Base64;
 import java.util.List;
@@ -10,6 +14,8 @@ import java.util.List;
 public class AdvertService {
 
     private final AdvertRepository advertRepository;
+    @Autowired private JwtTokenUtil jwtTokenUtil;
+    @Autowired private UserRepo userRepo;
 
     @Autowired
     public AdvertService(AdvertRepository advertRepository) {
@@ -66,5 +72,15 @@ public class AdvertService {
         } else {
             return false;
         }
+    }
+
+    public List<Advert> aiOneri(String jwt){
+        String email = jwtTokenUtil.getUsernameFromToken(jwt);
+        Users user = userRepo.findByEmail(email).orElse(null);
+
+        String apiUrl = "http://localhost:8000/api/oneri/"+user.getId();
+        RestTemplate restTemplate = new RestTemplate();
+        List<Advert> result = restTemplate.getForObject(apiUrl, List.class);
+        return result;
     }
 }

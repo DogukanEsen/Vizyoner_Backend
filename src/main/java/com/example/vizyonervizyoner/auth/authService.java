@@ -77,8 +77,7 @@ public class authService {
     public boolean isUser(String jwt){
         if(!isAuth(jwt))
             return false;
-        String email = jwtTokenUtil.getUsernameFromToken(jwt);
-        Users user = userRepo.findByEmail(email).orElse(null);
+        Users user = jwtTokenUtil.getUsersWjwt(jwt);
         Set<Role> roles = (Set<Role>) user.getAuthorities();
 
         for(Role role : roles){
@@ -90,8 +89,7 @@ public class authService {
     public boolean isAdmin(String jwt){
         if(!isAuth(jwt))
             return false;
-        String email = jwtTokenUtil.getUsernameFromToken(jwt);
-        Users user = userRepo.findByEmail(email).orElse(null);
+        Users user = jwtTokenUtil.getUsersWjwt(jwt);
 
         Set<Role> roles = (Set<Role>) user.getAuthorities();
 
@@ -103,6 +101,7 @@ public class authService {
     }
     public boolean isAuth(String jwt){
         try {
+            jwt = jwt.substring(7);
             String email = jwtTokenUtil.getUsernameFromToken(jwt);
             UserDetails userDetails = this.jwtUserDetailsService.loadUserByUsername(email);
             return jwtTokenUtil.validateToken(jwt,userDetails);

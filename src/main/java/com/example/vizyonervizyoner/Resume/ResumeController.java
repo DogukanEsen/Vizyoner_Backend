@@ -67,9 +67,28 @@ public class ResumeController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
+    @GetMapping("/get/userjwt/{jwt}")
+    public ResponseEntity<Resume> getResumeByUserIdjwt(@PathVariable("jwt") String jwt) {
+        Resume resume = resumeService.getResumeByUserIdjwt(jwt);
+        if (resume != null) {
+            return new ResponseEntity<>(resume, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
     @PutMapping("/update/user/{id}")
     public ResponseEntity<Resume> updateResumeByUserId(@PathVariable int id, @RequestBody Resume resume) {
         Resume updatedResume = resumeService.updateResumeByUserId(id, resume);
+        if (updatedResume != null) {
+            return new ResponseEntity<>(updatedResume, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @PutMapping("/update/userjwt/{jwt}")
+    public ResponseEntity<Resume> updateResumeByUserIdjwt(@PathVariable String jwt, @RequestBody Resume resume) {
+        Resume updatedResume = resumeService.updateResumeByUserIdjwt(jwt, resume);
         if (updatedResume != null) {
             return new ResponseEntity<>(updatedResume, HttpStatus.OK);
         } else {

@@ -4,6 +4,7 @@ import com.example.vizyonervizyoner.Advert.Advert;
 import com.example.vizyonervizyoner.Advert.AdvertRepository;
 import com.example.vizyonervizyoner.User.UserRepo;
 import com.example.vizyonervizyoner.User.Users;
+import com.example.vizyonervizyoner.Util.JwtTokenUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.annotation.MergedAnnotations;
 import org.springframework.stereotype.Service;
@@ -15,6 +16,7 @@ import java.util.*;
 public class CompanyService {
     @Autowired CompanyRepo repo;
     @Autowired UserRepo userRepo;
+    @Autowired private JwtTokenUtil jwtTokenUtil;
     @Autowired
     AdvertRepository advertRepository;
 
@@ -60,6 +62,12 @@ public class CompanyService {
         advertRepository.save(advert);
         return advert;
     }
+    public Advert ilanAcjwt(String jwt, Advert advert) {
+        Company company = GetCompanyDetailsWUserIdjwt(jwt);
+        advert.setCompany(company);
+        advertRepository.save(advert);
+        return advert;
+    }
 
     public boolean ilanSonucla(int companyId, boolean sonuc) {
         // companyId'ye sahip olan ilanın sonucunu güncellemek için burada gerekli işlemleri yapın.
@@ -90,9 +98,26 @@ public class CompanyService {
         Users user = userRepo.findById(userid).orElse(null);
         return repo.findCompanyByUserId(user).orElse(null);
     }
+    public Company GetCompanyDetailsWUserIdjwt(String jwt){
+        Users user = jwtTokenUtil.getUsersWjwt(jwt);
+        return repo.findCompanyByUserId(user).orElse(null);
+    }
 
     public Company updateCompanyByUserId(int id, Company company) {
         Users user = userRepo.findById(id).orElse(null);
+        Company existingCompany = repo.findCompanyByUserId(user).orElse(null);
+        if(existingCompany != null){
+            existingCompany.setName(company.getName());
+            existingCompany.setContent(company.getContent());
+            existingCompany.setCategory(company.getCategory());
+            existingCompany.setType(company.isType());
+            existingCompany.setImage(company.getImage());
+            existingCompany.setUser(user);
+            return repo.save(existingCompany);
+        }else return null;
+    }
+    public Company updateCompanyByUserIdjwt(String jwt, Company company) {
+        Users user = jwtTokenUtil.getUsersWjwt(jwt);
         Company existingCompany = repo.findCompanyByUserId(user).orElse(null);
         if(existingCompany != null){
             existingCompany.setName(company.getName());

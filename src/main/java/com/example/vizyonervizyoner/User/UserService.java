@@ -4,6 +4,7 @@ import com.example.vizyonervizyoner.Company.Company;
 import com.example.vizyonervizyoner.Company.CompanyRepo;
 import com.example.vizyonervizyoner.Company.CompanyService;
 import com.example.vizyonervizyoner.Resume.Resume;
+import com.example.vizyonervizyoner.Util.JwtTokenUtil;
 import com.example.vizyonervizyoner.auth.RegisterDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -24,6 +25,7 @@ import java.util.Set;
 public class UserService implements UserDetailsService {
     private final UserRepo userRepo;
     private final CompanyRepo companyRepo;
+    @Autowired private JwtTokenUtil jwtTokenUtil;
 
     @Autowired
     public UserService(UserRepo userRepo, CompanyRepo companyRepo) {
@@ -48,8 +50,24 @@ public class UserService implements UserDetailsService {
         }
         return registerDTO;
     }
-
-
+    public RegisterDTO getUserByIdDTOjwt(String jwt) {
+        Users user = jwtTokenUtil.getUsersWjwt(jwt);
+        RegisterDTO registerDTO = new RegisterDTO();
+        if(user != null){
+            registerDTO.setEmail(user.getEmail());
+            registerDTO.setFirstname(user.getFirstName());
+            registerDTO.setLastname(user.getLastName());
+        }
+        return registerDTO;
+    }
+    public Users updateUserByjwt(String jwt, RegisterDTO data){
+        Users user = jwtTokenUtil.getUsersWjwt(jwt);
+        user.setFirstName(data.getFirstname());
+        user.setLastName(data.getLastname());
+        user.setEmail(data.getEmail());
+        saveUser(user);
+        return user;
+    }
     public List<Users> userListeleme() {
         return userRepo.findAll();
     }

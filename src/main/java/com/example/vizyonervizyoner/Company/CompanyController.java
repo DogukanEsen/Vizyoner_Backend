@@ -50,7 +50,11 @@ public class CompanyController {
         System.out.println(advert.getCompany());
         return new ResponseEntity<>(companyService.ilanAc(id, advert), HttpStatus.CREATED);
     }
-
+    @PostMapping("/ilanacjwt/{jwt}")
+    public ResponseEntity<Advert> ilanAc(@PathVariable("jwt") String jwt, @RequestBody Advert advert) {
+        System.out.println(advert.getCompany());
+        return new ResponseEntity<>(companyService.ilanAcjwt(jwt, advert), HttpStatus.CREATED);
+    }
     @PostMapping("/ilansonucla")
     public ResponseEntity<?> ilanSonucla(@RequestParam int companyId, @RequestParam boolean sonuc) {
         companyService.ilanSonucla(companyId, sonuc);
@@ -71,9 +75,27 @@ public class CompanyController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
+    @GetMapping("/get/userjwt/{jwt}")
+    public ResponseEntity<Company> getCompanyByUserIdjwt(@PathVariable("jwt") String jwt) {
+        Company company = companyService.GetCompanyDetailsWUserIdjwt(jwt);
+        if (company != null) {
+            return new ResponseEntity<>(company, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
     @PutMapping("/update/user/{userid}")
     public ResponseEntity<Company> updateCompanyByUserId(@PathVariable("userid") int id, @RequestBody Company company) {
         Company updatedCompany = companyService.updateCompanyByUserId(id, company);
+        if (updatedCompany != null) {
+            return new ResponseEntity<>(updatedCompany, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+    @PutMapping("/update/userjwt/{jwt}")
+    public ResponseEntity<Company> updateCompanyByUserIdjwt(@PathVariable("jwt") String jwt, @RequestBody Company company) {
+        Company updatedCompany = companyService.updateCompanyByUserIdjwt(jwt, company);
         if (updatedCompany != null) {
             return new ResponseEntity<>(updatedCompany, HttpStatus.OK);
         } else {
