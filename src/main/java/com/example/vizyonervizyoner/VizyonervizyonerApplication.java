@@ -1,6 +1,8 @@
 package com.example.vizyonervizyoner;
 
 import com.example.vizyonervizyoner.Advert.Advert;
+import com.example.vizyonervizyoner.Application.Application;
+import com.example.vizyonervizyoner.Application.ApplicationService;
 import com.example.vizyonervizyoner.Company.Company;
 import com.example.vizyonervizyoner.Company.CompanyService;
 import com.example.vizyonervizyoner.Resume.Resume;
@@ -8,7 +10,6 @@ import com.example.vizyonervizyoner.Resume.ResumeService;
 import com.example.vizyonervizyoner.User.Role;
 import com.example.vizyonervizyoner.User.RoleRepo;
 import com.example.vizyonervizyoner.User.UserRepo;
-import com.example.vizyonervizyoner.User.Users;
 import com.example.vizyonervizyoner.auth.authService;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -17,8 +18,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.time.LocalDate;
-import java.util.HashSet;
-import java.util.Set;
 
 @SpringBootApplication
 public class VizyonervizyonerApplication {
@@ -27,7 +26,7 @@ public class VizyonervizyonerApplication {
 		SpringApplication.run(VizyonervizyonerApplication.class, args);
 	}
 	@Bean
-	CommandLineRunner run(RoleRepo roleRepo, UserRepo userRepo, PasswordEncoder encoder, authService AuthService, CompanyService companyService, ResumeService resumeService){
+	CommandLineRunner run(RoleRepo roleRepo, UserRepo userRepo, PasswordEncoder encoder, authService AuthService, CompanyService companyService, ResumeService resumeService, ApplicationService applicationService){
 		return args -> {
 			if(roleRepo.findByAuthority("ROLE_ADMIN").isPresent()) return;
 			Role adminRole = roleRepo.save(new Role("ROLE_ADMIN"));
@@ -152,6 +151,48 @@ public class VizyonervizyonerApplication {
 
 			AuthService.registerFirm("admin","admin","admin","admin");
 			AuthService.registerUser("user","user","user","user");
+
+			applicationService.createApplicationIds( 1, 9,  new Application());
+			applicationService.createApplicationIds( 1, 14, new Application());
+			applicationService.createApplicationIds( 2, 3,  new Application());
+			applicationService.createApplicationIds( 2, 16, new Application());
+			applicationService.createApplicationIds( 3, 9,  new Application());
+			applicationService.createApplicationIds( 3, 13, new Application());
+			applicationService.createApplicationIds( 10, 3, new Application());
+			applicationService.createApplicationIds( 10, 4, new Application());
+			applicationService.createApplicationIds( 11, 17,new Application());
+			applicationService.createApplicationIds( 12, 10,new Application());
+			applicationService.createApplicationIds( 12, 15,new Application());
+			applicationService.createApplicationIds( 13, 2, new Application());
+			applicationService.createApplicationIds( 13, 16,new Application());
+			applicationService.createApplicationIds( 14, 2, new Application());
+			applicationService.createApplicationIds( 14, 13,new Application());
+			applicationService.createApplicationIds( 15, 8, new Application());
+			applicationService.createApplicationIds( 15, 3, new Application());
+			applicationService.createApplicationIds( 17, 1, new Application());
+			applicationService.createApplicationIds( 18, 1, new Application());
+			applicationService.createApplicationIds( 18, 12,new Application());
+			applicationService.createApplicationIds( 31, 12,new Application());
+			applicationService.createApplicationIds( 31, 9, new Application());
+			applicationService.createApplicationIds( 11, 16,new Application());
+			applicationService.createApplicationIds( 11, 17,new Application());
+			applicationService.createApplicationIds( 23, 17,new Application());
+			applicationService.createApplicationIds( 23, 11,new Application());
+			applicationService.createApplicationIds( 21, 11,new Application());
+			applicationService.createApplicationIds( 21, 9, new Application());
+			applicationService.createApplicationIds( 21, 3, new Application());
+			applicationService.createApplicationIds( 17, 9, new Application());
+			applicationService.createApplicationIds( 17, 10,new Application());
+			applicationService.createApplicationIds( 25, 16,new Application());
+			applicationService.createApplicationIds( 25, 5, new Application());
+			applicationService.createApplicationIds( 26, 13,new Application());
+			applicationService.createApplicationIds( 26, 13,new Application());
+			applicationService.createApplicationIds( 19, 17,new Application());
+			applicationService.createApplicationIds( 19, 2, new Application());
+			applicationService.createApplicationIds( 19, 3, new Application());
+			applicationService.createApplicationIds( 5, 4, new Application());
+			applicationService.createApplicationIds( 6, 4, new Application());
+			applicationService.createApplicationIds( 6, 11,new Application());
 
 			System.out.println("---------Verilerin hepsi eklendi!!----------");
 		};

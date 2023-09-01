@@ -1,7 +1,5 @@
 package com.example.vizyonervizyoner.Advert;
 
-import com.example.vizyonervizyoner.Company.Company;
-import com.example.vizyonervizyoner.User.Users;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -80,7 +78,7 @@ public class AdvertController {
         }
     }
     @GetMapping("/ai/advertoneri/{jwt}")
-    public ResponseEntity<List<Advert>> aiOneri(@PathVariable String jwt){
-        return new ResponseEntity<>(advertService.aiOneri(jwt), HttpStatus.OK);
+    public ResponseEntity<String> aiOneri(@PathVariable String jwt){
+        return advertService.aiOneri(jwt);
     }
 }

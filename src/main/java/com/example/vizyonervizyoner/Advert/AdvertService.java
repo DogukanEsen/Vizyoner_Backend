@@ -4,18 +4,20 @@ import com.example.vizyonervizyoner.User.UserRepo;
 import com.example.vizyonervizyoner.User.Users;
 import com.example.vizyonervizyoner.Util.JwtTokenUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.Base64;
 import java.util.List;
 
 @Service
 public class AdvertService {
 
     private final AdvertRepository advertRepository;
-    @Autowired private JwtTokenUtil jwtTokenUtil;
-    @Autowired private UserRepo userRepo;
+    @Autowired
+    private JwtTokenUtil jwtTokenUtil;
+    @Autowired
+    private UserRepo userRepo;
 
     @Autowired
     public AdvertService(AdvertRepository advertRepository) {
@@ -74,13 +76,12 @@ public class AdvertService {
         }
     }
 
-    public List<Advert> aiOneri(String jwt){
-        String email = jwtTokenUtil.getUsernameFromToken(jwt);
-        Users user = userRepo.findByEmail(email).orElse(null);
-
-        String apiUrl = "http://localhost:8000/api/oneri/"+user.getId();
+    public ResponseEntity<String> aiOneri(String jwt) {
+        Users user = jwtTokenUtil.getUsersWjwt(jwt);
+        String apiUrl = "http://localhost:8000/api/öneri/" + user.getId();
         RestTemplate restTemplate = new RestTemplate();
-        List<Advert> result = restTemplate.getForObject(apiUrl, List.class);
-        return result;
+        ResponseEntity<String> response = restTemplate.getForEntity(apiUrl, String.class);
+
+        return response;
     }
 }

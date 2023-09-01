@@ -39,6 +39,14 @@ public class Application {
         this.advert = advert;
     }
 
+    public Application(Date date, String content, byte[] file, Users user, Advert advert) {
+        this.date = date;
+        this.content = content;
+        this.file = file;
+        this.user = user;
+        this.advert = advert;
+    }
+
     public int getId() {
         return id;
     }

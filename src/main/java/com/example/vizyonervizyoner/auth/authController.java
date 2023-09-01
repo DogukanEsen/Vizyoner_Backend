@@ -1,12 +1,7 @@
 package com.example.vizyonervizyoner.auth;
 
 import com.example.vizyonervizyoner.User.Users;
-import com.example.vizyonervizyoner.Util.JwtTokenUtil;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
