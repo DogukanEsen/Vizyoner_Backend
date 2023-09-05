@@ -1,6 +1,5 @@
 package com.example.vizyonervizyoner.auth;
 
-import com.example.vizyonervizyoner.User.Users;
 import org.springframework.security.core.userdetails.UserDetails;
 
 public class LoginResponseDTO {

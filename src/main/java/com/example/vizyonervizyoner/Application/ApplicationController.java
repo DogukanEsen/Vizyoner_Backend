@@ -4,11 +4,8 @@ import com.example.vizyonervizyoner.Advert.Advert;
 import com.example.vizyonervizyoner.Advert.AdvertService;
 import com.example.vizyonervizyoner.User.UserService;
 import com.example.vizyonervizyoner.User.Users;
-import org.apache.catalina.User;
-import org.flywaydb.core.internal.parser.PlaceholderReplacingReader;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;

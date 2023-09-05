@@ -61,7 +61,7 @@ public class Advert {
         this.advertCategory = advertCategory;
         this.company = company;
     }
-    public Advert(LocalDate updateDate, String title, String description, LocalDate startDate, LocalDate endDate, String image, String location, String category,String advertCategory, Company company) {
+    public Advert(LocalDate updateDate, String title, String description, LocalDate startDate, LocalDate endDate, String image, String location, String advertCategory,String category, Company company) {
         this.updateDate = updateDate;
         this.title = title;
         this.description = description;

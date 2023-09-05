@@ -3,23 +3,18 @@ package com.example.vizyonervizyoner.User;
 import com.example.vizyonervizyoner.Company.Company;
 import com.example.vizyonervizyoner.Company.CompanyRepo;
 import com.example.vizyonervizyoner.Company.CompanyService;
-import com.example.vizyonervizyoner.Resume.Resume;
 import com.example.vizyonervizyoner.Util.JwtTokenUtil;
 import com.example.vizyonervizyoner.auth.RegisterDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 @Service
 public class UserService implements UserDetailsService {
